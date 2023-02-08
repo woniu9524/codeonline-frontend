@@ -82,7 +82,7 @@
 
 <script lang="ts" setup>
 import {ref, reactive, onMounted, onUnmounted, watch, computed, toRefs} from "vue";
-import {addIdentity, readAdmins, readClass, readCollege, readTeachers, readUniversity,readIdentity} from "@/api/identify/identify";
+import {addIdentity, readAdmins, readClass, readCollege, readTeachers, readUniversity,readIdentity} from "@/api/identity/identity";
 import {ElMessage} from "element-plus";
 import type { FormInstance, FormRules } from 'element-plus'
 

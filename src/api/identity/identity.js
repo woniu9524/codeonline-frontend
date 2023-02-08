@@ -49,3 +49,17 @@ export function readIdentity() {
         method: 'get',
     })
 }
+
+export function readAllStudentIdentityByTeacher(teacherId) {
+    return request({
+        url: '/function/user/teachers/'+teacherId,
+        method: 'get',
+    })
+}
+
+export function readAllTeacherIdentityByAdmin(adminId) {
+    return request({
+        url: '/function/user/admins/'+adminId,
+        method: 'get',
+    })
+}
