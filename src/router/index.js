@@ -83,6 +83,34 @@ export const constantRoutes = [
         meta: { title: '个人中心', icon: 'user' }
       }
     ]
+  },
+  {
+    path: '/course',
+    component: Layout,
+    hidden: true,
+    redirect: 'noredirect',
+    children: [
+      {
+        path: 'management',
+        component: () => import('@/views/course/management/index.vue'),
+        name: 'CourseManagement',
+        meta: { title: '课程管理', icon: 'dict' }
+      }
+    ]
+  },
+  {
+    path: '/course',
+    component: Layout,
+    hidden: true,
+    redirect: 'noredirect',
+    children: [
+      {
+        path: 'laboratory/management',
+        component: () => import('@/views/course/laboratory/index.vue'),
+        name: 'LaboratoryManagement',
+        meta: { title: '实验列表', icon: 'client' }
+      }
+    ]
   }
 ]
 

@@ -31,7 +31,7 @@
 <script setup>
 
 import {onMounted} from "vue";
-import {approvalUser, readPeopleApprovalByApprover, refuseUser} from "@/api/user/approval/approval";
+import {approvalUser, readPeopleApprovalByApprover, refuseUser} from "@/api/user/approval";
 import {ElMessage} from "element-plus";
 
 const tableData = ref([])

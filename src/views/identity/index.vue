@@ -150,6 +150,7 @@ const submitForm = async (formEl: FormInstance | undefined) => {
             message: response.msg,
             type: 'success',
           })
+          formShow.value = false
         } else {
           ElMessage({
             message: response.msg,
