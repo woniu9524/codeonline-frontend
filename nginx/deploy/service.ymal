@@ -1,0 +1,27 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: codeonlie-frontend
+  namespace: codeonline-projects
+  labels:
+    app: codeonlie-frontend
+    version: v1
+  annotations:
+    kubesphere.io/creator: admin
+    kubesphere.io/serviceType: statelessservice
+spec:
+  ports:
+    - name: tcp-80
+      protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30020
+  selector:
+    app: codeonlie-frontend
+  type: NodePort
+  sessionAffinity: None
+  externalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  internalTrafficPolicy: Cluster
