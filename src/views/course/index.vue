@@ -21,14 +21,14 @@
           <el-table-column label="课程编号" align="center" key="id" prop="id"/>
 
           <el-table-column label="课程名称" align="center" key="courseName" prop="courseName"
-                           :show-overflow-tooltip="true"/>
+                           :show-overflow-tooltip="true" width="160"/>
           <el-table-column label="教师姓名" align="center" key="teacherName" prop="teacherName"
                            :show-overflow-tooltip="true"/>
           <el-table-column label="课程状态" align="center" key="courseStatus" prop="courseStatus"/>
 
           <el-table-column label="开始时间" align="center" key="courseStartTime" prop="courseStartTime" width="160"/>
           <el-table-column label="结束时间" align="center" key="courseEndTime" prop="courseEndTime" width="160"/>
-          <el-table-column label="课程周数" align="center" key="courseWeek" prop="courseWeek" width="160"/>
+          <el-table-column label="课程周数" align="center" key="courseWeek" prop="courseWeek" width="80"/>
 
           <el-table-column
               label="操作"

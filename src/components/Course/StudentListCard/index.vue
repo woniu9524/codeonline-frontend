@@ -18,15 +18,15 @@
         </el-col>
       </el-row>
       <el-table :data="tableData" style="width: 100%" height="450px">
-        <el-table-column prop="studentId" label="学生ID" width="120"/>
-        <el-table-column prop="studentName" label="学生昵称" width="120"/>
-        <el-table-column prop="studentCollage" label="学生学院" width="120"/>
-        <el-table-column prop="studentClass" label="学生班级"/>
-        <el-table-column prop="studentPhone" label="学生电话" width="120"/>
-        <el-table-column prop="studentEmail" label="学生邮箱" width="120"/>
+        <el-table-column prop="userId" label="学生ID" width="120"/>
+        <el-table-column prop="nickName" label="学生昵称" width="120"/>
+        <el-table-column prop="collageName" label="学生学院" width="120"/>
+        <el-table-column prop="className" label="学生班级"/>
+        <el-table-column prop="phonenumber" label="学生电话" width="120"/>
+        <el-table-column prop="email" label="学生邮箱" width="120"/>
         <el-table-column label="操作" width="120">
-          <template #default>
-            <el-button link type="primary" size="small" @click="handleDelete">删除</el-button>
+          <template #default="scope">
+            <el-button link type="primary" size="small" @click="handleDelete(scope.$index)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -42,7 +42,7 @@
     <template #footer>
       <span class="dialog-footer">
         <el-button @click="dialogVisible = false">取消</el-button>
-        <el-button type="primary" @click="addStudentToCourse">
+        <el-button type="primary" @click="addStudent">
           确定
         </el-button>
       </span>
@@ -53,17 +53,57 @@
 
 <script setup>
 import { ref, reactive, onMounted } from 'vue'
+import {useRouter} from "vue-router";
+import {addStudentToCourse, deleteStudent, selectStudentByCourseId} from "@/api/course/courseManage";
+import {ElMessage} from "element-plus";
 const dialogVisible = ref(false)
 const studentId = ref('')
 const tableData=ref([])
+
+// 读取路由参数
+const courseId=useRouter().currentRoute.value.query.courseId
+console.log(courseId)
+
+// 获取学生列表
+onMounted(async () => {
+  const res = await selectStudentByCourseId(courseId)
+  tableData.value = res.data
+})
 const handleAdd = () => {
   dialogVisible.value = true
 }
-const handleDelete = () => {
-  console.log('delete')
+const handleDelete = (index) => {
+  deleteStudent(courseId,tableData.value[index].userId).then(res=>{
+    if (res.code === 200) {
+      ElMessage({
+        message: '删除成功',
+        type: 'success',
+      })
+      selectStudentByCourseId(courseId).then(res=>{
+        tableData.value=res.data
+      })
+    } else {
+      ElMessage.error(res.msg)
+    }
+  })
 }
-const addStudentToCourse = () => {
-  console.log('add')
+const addStudent = () => {
+  addStudentToCourse(courseId,studentId.value).then(res=>{
+    if (res.code === 200) {
+      ElMessage({
+        message: '添加成功',
+        type: 'success',
+      })
+      dialogVisible.value = false
+      studentId.value = ''
+      selectStudentByCourseId(courseId).then(res=>{
+        tableData.value=res.data
+      })
+
+    } else {
+      ElMessage.error(res.msg)
+    }
+  })
 }
 
 
