@@ -48,7 +48,7 @@
           <lab-setting-card :lab-form="labForm"></lab-setting-card>
         </div>
         <div v-show="active===1">
-<!--          <k8s-configure-card :k8s-form="k8sForm"></k8s-configure-card>-->
+          <k8s-configure-card :k8s-form="k8sForm"></k8s-configure-card>
         </div>
       </div>
     </div>
@@ -65,7 +65,7 @@
 <script lang="ts" setup>
 import { ref } from "vue";
 import LabSettingCard from "@/components/Course/LabSettingCard/index.vue";
-// import K8sConfigureCard from "@/components/Course/K8sConfigureCard/index.vue";
+import K8sConfigureCard from "@/components/Course/K8sConfigureCard/index.vue";
 
 const props = defineProps({
   tableData: {

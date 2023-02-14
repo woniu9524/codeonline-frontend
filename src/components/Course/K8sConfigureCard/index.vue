@@ -55,7 +55,7 @@
                     </el-select>
                   </el-col>
                   <el-col :span="2">
-                    <el-button type="primary" icon="el-icon-plus" @click="addPort"></el-button>
+                    <el-button type="primary" icon="Plus" @click="addPort"></el-button>
                   </el-col>
                 </el-row>
                 <el-row v-for="(item, index) in k8sForm.ports" v-if="index>0" :key="index">
@@ -94,7 +94,7 @@
                     <el-input v-model="k8sForm.envs[0].value" placeholder="输入值"></el-input>
                   </el-col>
                   <el-col :span="2">
-                    <el-button type="primary" icon="el-icon-plus" @click="addEnv"></el-button>
+                    <el-button type="primary" icon="Plus" @click="addEnv"></el-button>
                   </el-col>
                 </el-row>
                 <el-row v-for="(item, index) in k8sForm.envs" v-if="index>0" :key="index">
@@ -142,11 +142,11 @@
           </el-col>
 
         </el-row>
-        <!--        <el-divider></el-divider>-->
-        <!--        <el-form-item>-->
-        <!--          <el-button type="primary" @click="onSubmit">立即创建</el-button>-->
-        <!--          <el-button>取消</el-button>-->
-        <!--        </el-form-item>-->
+<!--                <el-divider></el-divider>-->
+<!--                <el-form-item>-->
+<!--                  <el-button type="primary" @click="onSubmit">立即创建</el-button>-->
+<!--                  <el-button >取消</el-button>-->
+<!--                </el-form-item>-->
       </el-form>
     </el-card>
   </div>
@@ -155,7 +155,6 @@
 
 <script>
 
-import {checkImage} from "@/api/harbor/images";
 
 export default {
   name: "K8sConfigureCard",
