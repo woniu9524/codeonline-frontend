@@ -20,7 +20,7 @@
                 v-model="labForm.labStartTime"
                 type="datetime"
                 placeholder="选择日期时间"
-                value-format="yyyy-MM-dd HH:mm:ss"
+                value-format="YYYY-MM-DD HH:mm:ss"
                 style="width: 100%"
             >
             </el-date-picker>
@@ -32,7 +32,7 @@
                 v-model="labForm.labEndTime"
                 type="datetime"
                 placeholder="选择日期时间"
-                value-format="yyyy-MM-dd HH:mm:ss"
+                value-format="YYYY-MM-DD HH:mm:ss"
                 style="width: 100%"
             >
             </el-date-picker>
@@ -50,9 +50,6 @@
           </el-input>
         </el-form-item>
       </div>
-
-
-
 
     </el-form>
   </el-card>

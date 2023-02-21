@@ -1,9 +1,9 @@
 import request from '@/utils/request'
 
 // upload k8s configure
-export function addK8sConfigure(data) {
+export function addK8sConfigure(labId,data) {
   return request({
-    url: '/cloud/k8s/configures',
+    url: '/cloud/k8s/configures/'+labId,
     method: 'post',
     data: data
   })

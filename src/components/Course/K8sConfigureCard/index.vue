@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-card class="box-card">
-      <el-form ref="k8sForm" :model="k8sForm" label-width="80px">
+      <el-form :model="k8sForm" label-width="80px">
 
         <el-row :gutter="20">
           <el-col :span="12">
@@ -35,7 +35,7 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form-item label="开启端口" :style="{width: '100%'}">
-              <el-card shadow="never">
+              <el-card >
                 <!-- 端口列表ports，可以添加端口  -->
                 <el-row>
                   <el-col :span="6">
@@ -58,34 +58,38 @@
                     <el-button type="primary" icon="Plus" @click="addPort"></el-button>
                   </el-col>
                 </el-row>
-                <el-row v-for="(item, index) in k8sForm.ports" v-if="index>0" :key="index">
-                  <el-col :span="6">
-                    <el-input v-model="item.port" placeholder="端口"></el-input>
-                  </el-col>
-                  <el-col :span="6">
-                    <el-input v-model="item.targetPort" placeholder="目标端口"></el-input>
-                  </el-col>
-                  <el-col :span="8">
-                    <el-select v-model="item.service" placeholder="请选择">
-                      <el-option
-                          v-for="item in serviceOptions"
-                          :key="item.value"
-                          :label="item.label"
-                          :value="item.value">
-                      </el-option>
-                    </el-select>
-                  </el-col>
-                  <el-col :span="2">
-                    <el-button type="danger" icon="el-icon-delete" @click="delPort(index)"></el-button>
-                  </el-col>
-                </el-row>
+                <div>
+                  <template v-for="(item, index) in k8sForm.ports">
+                    <el-row  v-if="index>0" >
+                      <el-col :span="6">
+                        <el-input v-model="item.port" placeholder="端口"></el-input>
+                      </el-col>
+                      <el-col :span="6">
+                        <el-input v-model="item.targetPort" placeholder="目标端口"></el-input>
+                      </el-col>
+                      <el-col :span="8">
+                        <el-select v-model="item.service" placeholder="请选择">
+                          <el-option
+                              v-for="item in serviceOptions"
+                              :key="item.value"
+                              :label="item.label"
+                              :value="item.value">
+                          </el-option>
+                        </el-select>
+                      </el-col>
+                      <el-col :span="2">
+                        <el-button type="danger" icon="Delete" @click="delPort(index)"></el-button>
+                      </el-col>
+                    </el-row>
+                  </template>
+                </div>
               </el-card>
             </el-form-item>
           </el-col>
 
           <el-col :span="12">
             <el-form-item label="环境变量" :style="{width: '100%'}">
-              <el-card style="margin: auto" shadow="never">
+              <el-card style="margin: auto">
                 <el-row>
                   <el-col :span="10">
                     <el-input v-model="k8sForm.envs[0].key" placeholder="输入键"></el-input>
@@ -97,17 +101,22 @@
                     <el-button type="primary" icon="Plus" @click="addEnv"></el-button>
                   </el-col>
                 </el-row>
-                <el-row v-for="(item, index) in k8sForm.envs" v-if="index>0" :key="index">
-                  <el-col :span="10">
-                    <el-input v-model="item.key" placeholder="输入键"></el-input>
-                  </el-col>
-                  <el-col :span="10">
-                    <el-input v-model="item.value" placeholder="输入值"></el-input>
-                  </el-col>
-                  <el-col :span="2">
-                    <el-button type="danger" icon="el-icon-delete" @click="delEnv(index)"></el-button>
-                  </el-col>
-                </el-row>
+                <div>
+                  <template v-for="(item, index) in k8sForm.envs" >
+                    <el-row v-if="index>0" >
+                      <el-col :span="10">
+                        <el-input v-model="item.key" placeholder="输入键"></el-input>
+                      </el-col>
+                      <el-col :span="10">
+                        <el-input v-model="item.value" placeholder="输入值"></el-input>
+                      </el-col>
+                      <el-col :span="2">
+                        <el-button type="danger" icon="Delete" @click="delEnv(index)"></el-button>
+                      </el-col>
+                    </el-row>
+                  </template>
+                </div>
+
               </el-card>
             </el-form-item>
           </el-col>
@@ -125,8 +134,8 @@
               <el-input v-model="k8sForm.description" type="textarea" :autosize="{ minRows: 3, maxRows: 6}"></el-input>
             </el-form-item>
           </el-col>
-
         </el-row>
+
 
 
         <el-row :gutter="20">
@@ -140,88 +149,127 @@
               <el-switch v-model="k8sForm.hasPublic"></el-switch>
             </el-form-item>
           </el-col>
-
         </el-row>
-<!--                <el-divider></el-divider>-->
-<!--                <el-form-item>-->
-<!--                  <el-button type="primary" @click="onSubmit">立即创建</el-button>-->
-<!--                  <el-button >取消</el-button>-->
-<!--                </el-form-item>-->
       </el-form>
     </el-card>
   </div>
 </template>
 
 
-<script>
+<script setup>
+// export default {
+//   name: "K8sConfigureCard",
+//   props: {
+//     k8sForm: {
+//       type: Object,
+//       default: () => {
+//         return {
+//           sourceFrom: "harbor",
+//           imageName: undefined,
+//           ports: [{port: undefined, targetPort: undefined,service: "no"}],
+//           startCmd: undefined,
+//           startArgs: undefined,
+//           envs: [
+//             {key: undefined, value: undefined}
+//           ],
+//           volume: undefined,
+//           description: undefined,
+//           privilege: false,
+//           hasPublic: false,
+//         }
+//       }
+//     }
+//   },
+//
+//   data() {
+//     return {
+//       serviceOptions: [
+//         {value: 'vscode', label: 'vscode'},
+//         {value: 'jupyter', label: 'jupyter'},
+//         {value: 'http', label: 'http访问'},
+//         {value: 'ssh', label: 'ssh连接'},
+//         {value: 'other', label: '其他'},
+//         {value: 'no', label: '不创建'},
+//       ],
+//       sourceOptions: [
+//         {value: 'harbor', label: '站内仓库'},
+//         {value: 'dockerhub', label: 'dockerhub'},
+//       ],
+//     }
+//   },
+//
+//   methods: {
+//     addEnv() {
+//       this.k8sForm.envs.push({key: undefined, value: undefined})
+//     },
+//     delEnv(index) {
+//       this.k8sForm.envs.splice(index, 1)
+//     },
+//     addPort() {
+//       this.k8sForm.ports.push({port: undefined, targetPort: undefined})
+//     },
+//     delPort(index) {
+//       this.k8sForm.ports.splice(index, 1)
+//     },
+//   }
+// }
 
-
-export default {
-  name: "K8sConfigureCard",
-  props: {
-    k8sForm: {
-      type: Object,
-      default: () => {
-        return {
-          sourceFrom: "harbor",
-          imageName: undefined,
-          ports: [{port: undefined, targetPort: undefined,service: "no"}],
-          startCmd: undefined,
-          startArgs: undefined,
-          envs: [
-            {key: undefined, value: undefined}
-          ],
-          volume: undefined,
-          description: undefined,
-          privilege: false,
-          hasPublic: false,
-        }
+const props=defineProps({
+  k8sForm: {
+    type: Object,
+    default: () => {
+      return {
+        sourceFrom: "harbor",
+        imageName: undefined,
+        ports: [{port: undefined, targetPort: undefined,service: "no"}],
+        startCmd: undefined,
+        startArgs: undefined,
+        envs: [
+          {key: undefined, value: undefined}
+        ],
+        volume: undefined,
+        description: undefined,
+        privilege: false,
+        hasPublic: false,
       }
     }
-  },
-
-  data() {
-    return {
-      serviceOptions: [
-        {value: 'vscode', label: 'vscode'},
-        {value: 'jupyter', label: 'jupyter'},
-        {value: 'http', label: 'http访问'},
-        {value: 'ssh', label: 'ssh连接'},
-        {value: 'other', label: '其他'},
-        {value: 'no', label: '不创建'},
-      ],
-      sourceOptions: [
-        {value: 'harbor', label: '站内仓库'},
-        {value: 'dockerhub', label: 'dockerhub'},
-      ],
-    }
-  },
-  created() {
-
-  },
-  methods: {
-    onSubmit() {
-      //TODO dockerhub  镜像检查
-      checkImage(this.k8sForm.imageName).then(response => {
-        console.log(response)
-      }).catch(error => {
-        console.log(error)
-      })
-    },
-    addEnv() {
-      this.k8sForm.envs.push({key: undefined, value: undefined})
-    },
-    delEnv(index) {
-      this.k8sForm.envs.splice(index, 1)
-    },
-    addPort() {
-      this.k8sForm.ports.push({port: undefined, targetPort: undefined})
-    },
-    delPort(index) {
-      this.k8sForm.ports.splice(index, 1)
-    },
   }
+})
+
+const serviceOptions = [
+  {value: 'vscode', label: 'vscode'},
+  {value: 'jupyter', label: 'jupyter'},
+  {value: 'http', label: 'http访问'},
+  {value: 'ssh', label: 'ssh连接'},
+  {value: 'other', label: '其他'},
+  {value: 'no', label: '不创建'},
+]
+
+const sourceOptions = [
+  {value: 'harbor', label: '站内仓库'},
+  {value: 'dockerhub', label: 'dockerhub'},
+]
+
+const addEnv = () => {
+  props.k8sForm.envs.push({key: undefined, value: undefined})
+  console.log(props.k8sForm.envs)
 }
+
+const delEnv = (index) => {
+  props.k8sForm.envs.splice(index, 1)
+}
+
+const addPort = () => {
+  props.k8sForm.ports.push({port: undefined, targetPort: undefined})
+}
+
+const delPort = (index) => {
+  props.k8sForm.ports.splice(index, 1)
+}
+
+
+
+
 </script>
 
 <style scoped>

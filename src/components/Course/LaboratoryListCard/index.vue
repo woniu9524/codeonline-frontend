@@ -17,14 +17,14 @@
           </el-button>
         </el-col>
       </el-row>
-      <el-table :data="tableData" style="width: 100%" height="250px">
+      <el-table :data="labListData" style="width: 100%" height="250px">
         <el-table-column prop="labId" label="实验ID" width="120" />
         <el-table-column prop="labName" label="实验名称" width="120" />
         <el-table-column prop="labContent" label="实验内容" />
         <el-table-column prop="labStartTime" label="开始时间" width="120" />
         <el-table-column prop="labEndTime" label="结束时间" width="120" />
-        <el-table-column prop="createBy" label="创建人" width="240" />
-        <el-table-column label="操作" width="120">
+        <el-table-column prop="createBy" label="创建人" width="120" />
+        <el-table-column label="操作" width="240">
           <template #default>
             <el-button link type="primary" size="small" @click="goManage">管理</el-button>
             <el-button link type="primary" size="small" @click="goTest">测试</el-button>
@@ -62,99 +62,140 @@
   </el-dialog>
 </template>
 
-<script lang="ts" setup>
-import { ref } from "vue";
+<script >
+import {onMounted, ref} from "vue";
 import LabSettingCard from "@/components/Course/LabSettingCard/index.vue";
 import K8sConfigureCard from "@/components/Course/K8sConfigureCard/index.vue";
+import {addExperimentToCourse, updateExperimentToCourse} from "@/api/course/courseManage.js";
+import {addK8sConfigure, updateK8sConfigure} from "@/api/cloud/k8s.js";
+import {useRouter} from "vue-router";
 
-const props = defineProps({
-  tableData: {
-    type: Array,
-    default: () => [],
+import {selectCourseInfo,selectExperimentByCourseId} from "@/api/course/courseManage.js";
+export default {
+
+  name: "LaboratoryListCard",
+  props: {
+    labListData: {
+      type: Array,
+      default: () => []
+    },
   },
-});
+  components: {
+    LabSettingCard,
+    K8sConfigureCard,
+  },
+  setup(){
 
-const labOpen = ref(false);
-const labTitle = ref("添加实验");
-const active = ref(0);
-const labForm = ref({});
-const k8sForm = ref({
-  sourceFrom: "harbor",
-  imageName: undefined,
-  ports: [{port: undefined, targetPort: undefined,service: "no"}],
-  startCmd: undefined,
-  startArgs: undefined,
-  envs: [
-    {key: undefined, value: undefined}
-  ],
-  volume: undefined,
-  description: undefined,
-  privilege: false,
-  hasPublic: false,
-});
+    const labOpen = ref(false);
+    const labTitle = ref("添加实验");
+    const active = ref(0);
+    const labForm = ref({});
+    const k8sForm = ref({
+      sourceFrom: "harbor",
+      imageName: undefined,
+      ports: [{port: undefined, targetPort: undefined,service: "no"}],
+      startCmd: undefined,
+      startArgs: undefined,
+      envs: [
+        {key: undefined, value: undefined}
+      ],
+      volume: undefined,
+      description: undefined,
+      privilege: false,
+      hasPublic: false,
+    });
 
-const handleAdd = () => {
-  labOpen.value = true;
-  labTitle.value = "添加实验";
-  active.value = 0;
-  labForm.value = {};
-  k8sForm.value = {
-    sourceFrom: "harbor",
-    imageName: undefined,
-    ports: [{port: undefined, targetPort: undefined,service: "no"}],
-    startCmd: undefined,
-    startArgs: undefined,
-    envs: [
-      {key: undefined, value: undefined}
-    ],
-    volume: undefined,
-    description: undefined,
-    privilege: false,
-    hasPublic: false,
-  };
-};
+    const handleAdd = () => {
+      labOpen.value = true;
+      labTitle.value = "添加实验";
+      active.value = 0;
+      labForm.value = {};
+      k8sForm.value = {
+        sourceFrom: "harbor",
+        imageName: undefined,
+        ports: [{port: undefined, targetPort: undefined,service: "no"}],
+        startCmd: undefined,
+        startArgs: undefined,
+        envs: [
+          {key: undefined, value: undefined}
+        ],
+        volume: undefined,
+        description: undefined,
+        privilege: false,
+        hasPublic: false,
+      };
+    };
 
-const handleEdit = () => {
-  labOpen.value = true;
-  labTitle.value = "修改实验";
-  active.value = 0;
-  labForm.value = {};
-  k8sForm.value = {
-    sourceFrom: "harbor",
-    imageName: undefined,
-    ports: [{port: undefined, targetPort: undefined,service: "no"}],
-    startCmd: undefined,
-    startArgs: undefined,
-    envs: [
-      {key: undefined, value: undefined}
-    ],
-    volume: undefined,
-    description: undefined,
-    privilege: false,
-    hasPublic: false,
-  };
-};
+    const handleEdit = () => {
+      labOpen.value = true;
+      labTitle.value = "修改实验";
+      active.value = 0;
+      labForm.value = {};
+      k8sForm.value = {
+        sourceFrom: "harbor",
+        imageName: undefined,
+        ports: [{port: undefined, targetPort: undefined,service: "no"}],
+        startCmd: undefined,
+        startArgs: undefined,
+        envs: [
+          {key: undefined, value: undefined}
+        ],
+        volume: undefined,
+        description: undefined,
+        privilege: false,
+        hasPublic: false,
+      };
+    };
 
-const handleDelete = () => {
-  console.log("删除");
-};
+    const handleDelete = () => {
+      console.log("删除");
+    };
 
-const goManage = () => {
-  console.log("管理");
-};
+    const goManage = () => {
+      console.log("管理");
+    };
 
-const goTest = () => {
-  console.log("测试");
-};
+    const goTest = () => {
+      console.log("测试");
+    };
 
-const cancel = () => {
-  labOpen.value = false;
-};
+    const cancel = () => {
+      labOpen.value = false;
+    };
 
-const submitForm = () => {
-  console.log("提交");
-};
 
+// 读取路由参数
+    const courseId=useRouter().currentRoute.value.query.courseId
+
+
+
+
+    const submitForm = () => {
+      // 对k8sFrom中的ports和envs排序
+      sortForm()
+      // 提交表单
+      addExperimentToCourse(courseId,labForm.value).then(res=>{
+        let labId=res.data.labId;
+        addK8sConfigure(labId,k8sForm.value).then(res=>{
+          console.log(res)
+        })
+
+      })
+    };
+
+    const sortForm=()=>{
+      // 对k8sFrom中的ports和envs排序
+
+      k8sForm.value.ports.sort((a, b) => {
+        return a.port - b.port
+      })
+      k8sForm.value.envs.sort((a, b) => {
+        return a.key.localeCompare(b.key)
+      })
+    }
+
+  }
+}
 
 
 </script>
