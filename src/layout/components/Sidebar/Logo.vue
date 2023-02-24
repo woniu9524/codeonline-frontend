@@ -25,7 +25,7 @@ defineProps({
   }
 })
 
-const title = ref('若依管理系统');
+const title = ref('基于docker的在线编程平台');
 const settingsStore = useSettingsStore();
 const sideTheme = computed(() => settingsStore.sideTheme);
 </script>

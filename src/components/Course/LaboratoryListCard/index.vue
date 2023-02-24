@@ -18,7 +18,7 @@
         </el-col>
       </el-row>
       <el-table :data="labListData" style="width: 100%" height="250px">
-        <el-table-column prop="labId" label="实验ID" width="120" />
+        <el-table-column prop="labId" label="实验ID" width="150" />
         <el-table-column prop="labName" label="实验名称" width="120" />
         <el-table-column prop="labContent" label="实验内容" />
         <el-table-column prop="labStartTime" label="开始时间" width="120" />

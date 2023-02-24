@@ -1,7 +1,7 @@
 {
   "name": "ruoyi",
   "version": "3.6.2",
-  "description": "若依管理系统",
+  "description": "基于docker的在线编程平台",
   "author": "若依",
   "license": "MIT",
   "scripts": {
