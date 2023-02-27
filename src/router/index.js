@@ -108,7 +108,7 @@ export const constantRoutes = [
         path: 'laboratory/management',
         component: () => import('@/views/course/laboratory/index.vue'),
         name: 'LaboratoryManagement',
-        meta: { title: '实验列表', icon: 'client' }
+        meta: { title: '实验室', icon: 'client' }
       }
     ]
   }

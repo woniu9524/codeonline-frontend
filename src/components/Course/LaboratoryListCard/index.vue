@@ -25,11 +25,11 @@
         <el-table-column prop="labEndTime" label="结束时间" width="120" />
         <el-table-column prop="createBy" label="创建人" width="120" />
         <el-table-column label="操作" width="240">
-          <template #default>
-            <el-button link type="primary" size="small" @click="goManage">管理</el-button>
-            <el-button link type="primary" size="small" @click="goTest">测试</el-button>
-            <el-button link type="primary" size="small" @click="handleEdit">修改</el-button>
-            <el-button link type="primary" size="small" @click="handleDelete">删除</el-button>
+          <template #default="scope">
+            <el-button link type="primary" size="small" @click="goManage(scope.row.labId)">管理</el-button>
+            <el-button link type="primary" size="small" @click="goTest(scope.row.labId)">测试</el-button>
+            <el-button link type="primary" size="small" @click="handleEdit(scope.row.labId)">修改</el-button>
+            <el-button link type="primary" size="small" @click="handleDelete(scope.row.labId)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -66,8 +66,12 @@
 import {onMounted, ref} from "vue";
 import LabSettingCard from "@/components/Course/LabSettingCard/index.vue";
 import K8sConfigureCard from "@/components/Course/K8sConfigureCard/index.vue";
-import {addExperimentToCourse, updateExperimentToCourse} from "@/api/course/courseManage.js";
-import {addK8sConfigure, updateK8sConfigure} from "@/api/cloud/k8s.js";
+import {
+  addExperimentToCourse, deleteExperiment,
+  selectExperimentByExperimentId,
+  updateExperimentToCourse
+} from "@/api/course/courseManage.js";
+import {addK8sConfigure, selectK8sConfigureByLabId, updateK8sConfigure} from "@/api/cloud/k8s.js";
 import {useRouter} from "vue-router";
 
 import {selectCourseInfo,selectExperimentByCourseId} from "@/api/course/courseManage.js";
@@ -126,7 +130,7 @@ export default {
       };
     };
 
-    const handleEdit = () => {
+    const handleEdit = (labId) => {
       labOpen.value = true;
       labTitle.value = "修改实验";
       active.value = 0;
@@ -145,18 +149,36 @@ export default {
         privilege: false,
         hasPublic: false,
       };
+      selectExperimentByExperimentId(courseId,labId).then(res=>{
+        labForm.value=res.data;
+        selectK8sConfigureByLabId(labId).then(res=>{
+          k8sForm.value=res.data;
+        })
+      })
     };
 
-    const handleDelete = () => {
-      console.log("删除");
+    const handleDelete = (labId) => {
+      deleteExperiment(labId).then(res=>{
+        console.log(res)
+        // 刷新列表
+        selectExperimentByCourseId(courseId).then(res=>{
+          this.labListData=res.data;
+        })
+        // 强制刷新
+        this.$forceUpdate();
+        // TODO 无法刷新
+
+      })
     };
 
-    const goManage = () => {
-      console.log("管理");
+    const router = useRouter();
+
+    const goManage = (labId) => {
+
     };
 
-    const goTest = () => {
-      console.log("测试");
+    const goTest = (labId) => {
+      router.push({path: "/course/laboratory/management", query: {labId: labId}});
     };
 
     const cancel = () => {
@@ -164,10 +186,8 @@ export default {
     };
 
 
-// 读取路由参数
+    // 读取路由参数
     const courseId=useRouter().currentRoute.value.query.courseId
-
-
 
 
     const submitForm = () => {
@@ -192,6 +212,21 @@ export default {
       k8sForm.value.envs.sort((a, b) => {
         return a.key.localeCompare(b.key)
       })
+    }
+
+    return {
+      labOpen,
+      labTitle,
+      active,
+      labForm,
+      k8sForm,
+      handleAdd,
+      handleEdit,
+      handleDelete,
+      goManage,
+      goTest,
+      cancel,
+      submitForm,
     }
 
   }
