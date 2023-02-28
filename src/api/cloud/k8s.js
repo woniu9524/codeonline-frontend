@@ -18,9 +18,9 @@ export function selectK8sConfigureByLabId(labId) {
 }
 
 // 通过labId修改k8s配置
-export function updateK8sConfigure(data) {
+export function updateK8sConfigure(labId,data) {
   return request({
-    url: '/cloud/k8s/configures',
+    url: '/cloud/k8s/configures/'+labId,
     method: 'put',
     data: data
   })

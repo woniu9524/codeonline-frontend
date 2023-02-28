@@ -44,13 +44,7 @@ export function selectExperimentByCourseId(courseId) {
     })
 }
 
-/* 通过实验ID查询实验信息 */
-export function selectExperimentByExperimentId(courseId,experimentId) {
-    return request({
-        url: '/function/courses/manage/experiments/'+courseId+'/'+experimentId,
-        method: 'get',
-    })
-}
+
 
 /* 添加实验到课程 */
 export function addExperimentToCourse(courseId,data) {

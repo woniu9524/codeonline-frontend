@@ -68,13 +68,14 @@ import LabSettingCard from "@/components/Course/LabSettingCard/index.vue";
 import K8sConfigureCard from "@/components/Course/K8sConfigureCard/index.vue";
 import {
   addExperimentToCourse, deleteExperiment,
-  selectExperimentByExperimentId,
   updateExperimentToCourse
 } from "@/api/course/courseManage.js";
 import {addK8sConfigure, selectK8sConfigureByLabId, updateK8sConfigure} from "@/api/cloud/k8s.js";
 import {useRouter} from "vue-router";
 
 import {selectCourseInfo,selectExperimentByCourseId} from "@/api/course/courseManage.js";
+import {selectExperimentByExperimentId} from "@/api/course/lab";
+import {ElNotification} from "element-plus";
 export default {
 
   name: "LaboratoryListCard",
@@ -130,6 +131,7 @@ export default {
       };
     };
 
+    const experimentId = ref(undefined);
     const handleEdit = (labId) => {
       labOpen.value = true;
       labTitle.value = "修改实验";
@@ -149,12 +151,14 @@ export default {
         privilege: false,
         hasPublic: false,
       };
-      selectExperimentByExperimentId(courseId,labId).then(res=>{
+      selectExperimentByExperimentId(labId).then(res=>{
         labForm.value=res.data;
         selectK8sConfigureByLabId(labId).then(res=>{
           k8sForm.value=res.data;
         })
       })
+      experimentId.value=labId;
+      console.log(experimentId.value)
     };
 
     const handleDelete = (labId) => {
@@ -193,15 +197,31 @@ export default {
     const submitForm = () => {
       // 对k8sFrom中的ports和envs排序
       sortForm()
-      // 提交表单
-      addExperimentToCourse(courseId,labForm.value).then(res=>{
-        let labId=res.data.labId;
-        addK8sConfigure(labId,k8sForm.value).then(res=>{
-          console.log(res)
+      if (labTitle==='添加实验'){
+        // 提交表单
+        addExperimentToCourse(courseId,labForm.value).then(res=>{
+          let labId=res.data.labId;
+          addK8sConfigure(labId,k8sForm.value).then(res=>{
+            ElNotification({
+              message: res.msg,
+              type: 'success',
+            })
+          })
+          labOpen.value = false;
         })
-
-      })
-    };
+    }else {
+      // 修改表单
+        updateExperimentToCourse(experimentId.value,labForm.value).then(res=>{
+          updateK8sConfigure(experimentId.value,k8sForm.value).then(res=>{
+            ElNotification({
+              message: res.msg,
+              type: 'success',
+            })
+          })
+          labOpen.value = false;
+        })
+      }
+    }
 
     const sortForm=()=>{
       // 对k8sFrom中的ports和envs排序
@@ -220,6 +240,7 @@ export default {
       active,
       labForm,
       k8sForm,
+      experimentId,
       handleAdd,
       handleEdit,
       handleDelete,
