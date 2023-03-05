@@ -111,7 +111,21 @@ export const constantRoutes = [
         meta: { title: '实验室', icon: 'client' }
       }
     ]
-  }
+  },
+  {
+    path: '/personal',
+    component: Layout,
+    hidden: true,
+    redirect: 'noredirect',
+    children: [
+      {
+        path: 'curriculum/detail',
+        component: () => import('@/views/personal/curriculumDetail/index.vue'),
+        name: 'CurriculumDetail',
+        meta: { title: '课程详情', icon: 'client' }
+      }
+    ]
+  },
 ]
 
 // 动态路由，基于用户权限动态去加载

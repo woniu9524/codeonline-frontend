@@ -26,10 +26,10 @@
         <el-table-column prop="createBy" label="创建人" width="120" />
         <el-table-column label="操作" width="240">
           <template #default="scope">
-            <el-button link type="primary" size="small" @click="goManage(scope.row.labId)">管理</el-button>
-            <el-button link type="primary" size="small" @click="goTest(scope.row.labId)">测试</el-button>
-            <el-button link type="primary" size="small" @click="handleEdit(scope.row.labId)">修改</el-button>
-            <el-button link type="primary" size="small" @click="handleDelete(scope.row.labId)">删除</el-button>
+            <el-button link type="primary" size="small" @click="goManage(scope.row.labId)" v-hasPermi="['course:list']">管理</el-button>
+            <el-button link type="primary" size="small" @click="goTest(scope.row.labId)" v-hasPermi="['course:list']">测试</el-button>
+            <el-button link type="primary" size="small" @click="handleEdit(scope.row.labId)" v-hasPermi="['course:list']">修改</el-button>
+            <el-button link type="primary" size="small" @click="handleDelete(scope.row.labId)" v-hasPermi="['course:list']">删除</el-button>
           </template>
         </el-table-column>
       </el-table>

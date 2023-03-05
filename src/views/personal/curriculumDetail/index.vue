@@ -1,25 +1,30 @@
 <template>
   <!-- 课程信息 -->
-  <CourseIntroductionCard :course-info="courseInfo"/>
-  <!-- 实验管理  -->
-  <LaboratoryListCard :labListData="labListData" />
-  <!-- 学生管理 -->
-  <StudentListCard />
+<!--  <CourseIntroductionCard :course-info="courseInfo"/>-->
+
+  <!-- 卡片列表，每行4个 -->
+  <div style="width: 95%">
+    <el-row :gutter="20" v-for="o in labListData" :key="o">
+      <el-col :span="6">
+        <el-col :span="6" v-for="obj in o">
+          <lab-info-card :lab-info="obj"></lab-info-card>
+        </el-col>
+      </el-col>
+    </el-row>
+  </div>
+
 
 </template>
 
-<script lang="ts" setup>
-import {ref, reactive, onMounted, onUnmounted, watch, computed, toRefs} from "vue";
-// 读取路由参数
+<script setup>
+import {onMounted, reactive, ref} from "vue";
+import {selectCourseInfo, selectExperimentByCourseId} from "@/api/course/courseManage";
 import {useRoute} from "vue-router";
+
 import CourseIntroductionCard from "@/components/Course/CourseIntroduceCard/index.vue";
-import LaboratoryListCard from "@/components/Course/LaboratoryListCard/index.vue";  // 实验列表
+import LabInfoCard from "@/components/Curriculum/LabInfoCard";
 
 const courseId = useRoute().query.courseId
-console.log(courseId)
-
-// 查询课程信息
-import {selectCourseInfo,selectExperimentByCourseId} from "@/api/course/courseManage.js";
 
 const courseInfo = reactive({
   id: "",
@@ -44,18 +49,21 @@ onMounted(async () => {
   courseInfo.courseStatus = res.data.courseStatus;
   console.log(courseInfo);
   // 读取课程信息
-  selectExperimentByCourseId(courseId).then(res=>{
-    labListData.value=res.data
+  selectExperimentByCourseId(courseId).then(res => {
+    let temp = res.data
+    // 把数据转换成二维数组，4个一行
+    let temp2 = []
+    for (let i = 0; i < temp.length; i += 4) {
+      temp2.push(temp.slice(i, i + 4))
+    }
+    labListData.value = temp2
   })
 
 
 });
-
-// 学生列表
-import StudentListCard from "@/components/Course/StudentListCard/index.vue";
-
 </script>
 
 <style scoped>
+
 
 </style>

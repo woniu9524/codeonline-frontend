@@ -1,12 +1,12 @@
 <template>
-  <div class="card">
-    <div class="card-header">
+  <div class="introduce-card">
+    <div class="introduce-card-header">
       <h3>{{ courseInfo.courseName }}({{ courseInfo.courseWeek }}周)</h3>
     </div>
-    <div class="card-body">
+    <div class="introduce-card-body">
       <p>{{ courseInfo.introduction }}</p>
     </div>
-    <div class="card-footer">
+    <div class="introduce-card-footer">
       <span>{{ courseInfo.courseStartTime }}</span>
       <span>{{ courseInfo.courseEndTime }}</span>
     </div>
@@ -26,7 +26,7 @@ export default {
 </script>
 
 <style scoped>
-.card {
+.introduce-card {
   width: 95%;
 
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -40,7 +40,7 @@ export default {
 /*  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);*/
 /*}*/
 
-.card-header {
+.introduce-card-header {
   padding: 20px;
   background-color: lightblue;
   text-align: center;
@@ -48,20 +48,20 @@ export default {
   border-top-right-radius: 10px;
 }
 
-.card-header h3 {
+.introduce-card-header h3 {
   margin: 0;
   font-size: 24px;
   color: white;
 }
 
-.card-body {
+.introduce-card-body {
   padding: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.card-footer {
+.introduce-card-footer {
   padding: 20px;
   background-color: lightgray;
   border-bottom-left-radius: 10px;
@@ -70,7 +70,7 @@ export default {
   justify-content: space-between;
 }
 
-.card-footer span {
+.introduce-card-footer span {
   font-size: 14px;
   color: black;
 }

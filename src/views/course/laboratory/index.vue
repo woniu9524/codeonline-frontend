@@ -18,7 +18,7 @@
     </el-card>
   </div>
   <div>
-    <iframe class="lab-frame" />
+    <iframe class="lab-frame" :src="frameUrl" />
   </div>
 <!--  实验信息的抽屉 -->
   <el-drawer
@@ -72,9 +72,18 @@ const startContainer = () => {
   })
 }
 
+
 // 启动实验
+const frameUrl = ref('')
 const startLab= () => {
   startK8sEnvironment(labId).then(response => {
+    let res=response.data[0]
+    console.log(res)
+    frameUrl.value = res.url
+    console.log(frameUrl.value)
+    let service=res.service
+    let nodePort=res.nodePort
+    let port=res.port
     ElNotification({
       message: response.msg,
       type: 'success',
@@ -91,13 +100,15 @@ const endLab = () => {
     })
   })
 }
+
+
 </script>
 
-<script>
-export default {
-  name: 'LaboratoryManagement',
-}
-</script>
+<!--<script>-->
+<!--export default {-->
+<!--  name: 'LaboratoryManagement',-->
+<!--}-->
+<!--</script>-->
 
 <style scoped>
 
