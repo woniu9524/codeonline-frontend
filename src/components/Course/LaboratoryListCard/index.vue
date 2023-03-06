@@ -182,7 +182,7 @@ export default {
     };
 
     const goTest = (labId) => {
-      router.push({path: "/course/laboratory/management", query: {labId: labId}});
+      router.push({path: "/course/laboratory/use", query: {labId: labId}});
     };
 
     const cancel = () => {

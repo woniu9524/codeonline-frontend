@@ -105,9 +105,9 @@ export const constantRoutes = [
     redirect: 'noredirect',
     children: [
       {
-        path: 'laboratory/management',
+        path: 'laboratory/use',
         component: () => import('@/views/course/laboratory/index.vue'),
-        name: 'LaboratoryManagement',
+        name: 'LaboratoryUse',
         meta: { title: '实验室', icon: 'client' }
       }
     ]

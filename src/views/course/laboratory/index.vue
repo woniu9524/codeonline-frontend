@@ -95,7 +95,7 @@ const endLab = () => {
 
 <script>
 export default {
-  name: 'LaboratoryManagement',
+  name: 'LaboratoryUse',
 }
 </script>
 

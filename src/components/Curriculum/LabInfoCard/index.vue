@@ -36,7 +36,7 @@ export default {
     // 进入实验
     const goLab = () => {
       // 跳转到实验页面
-      router.push({path: "/course/laboratory/management", query: {labId: props.labInfo.labId}});
+      router.push({path: "/course/laboratory/use", query: {labId: props.labInfo.labId}});
     };
     return {
       goLab,
