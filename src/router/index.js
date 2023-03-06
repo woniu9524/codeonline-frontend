@@ -113,6 +113,20 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/course',
+    component: Layout,
+    hidden: true,
+    redirect: 'noredirect',
+    children: [
+      {
+        path: 'laboratory/manage',
+        component: () => import('@/views/course/laboratory/manageLab/index.vue'),
+        name: 'LaboratoryManage',
+        meta: { title: '实验管理', icon: 'client' }
+      }
+    ]
+  },
+  {
     path: '/personal',
     component: Layout,
     hidden: true,

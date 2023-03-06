@@ -178,7 +178,7 @@ export default {
     const router = useRouter();
 
     const goManage = (labId) => {
-
+      router.push({path: "/course/laboratory/manage", query: {labId: labId}});
     };
 
     const goTest = (labId) => {

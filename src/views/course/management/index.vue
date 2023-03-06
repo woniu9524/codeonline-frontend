@@ -1,10 +1,12 @@
 <template>
-  <!-- 课程信息 -->
-  <CourseIntroductionCard :course-info="courseInfo"/>
-  <!-- 实验管理  -->
-  <LaboratoryListCard :labListData="labListData" />
-  <!-- 学生管理 -->
-  <StudentListCard />
+  <div>
+    <!-- 课程信息 -->
+    <CourseIntroductionCard :course-info="courseInfo"/>
+    <!-- 实验管理  -->
+    <LaboratoryListCard :labListData="labListData" />
+    <!-- 学生管理 -->
+    <StudentListCard />
+  </div>
 
 </template>
 
