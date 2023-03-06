@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 
 import ElementPlus from 'element-plus'
 import locale from 'element-plus/lib/locale/lang/zh-cn' // 中文语言
+import moment from 'moment'//导入文件
 
 import '@/assets/styles/index.scss' // global css
 
@@ -53,6 +54,7 @@ app.config.globalProperties.handleTree = handleTree
 app.config.globalProperties.addDateRange = addDateRange
 app.config.globalProperties.selectDictLabel = selectDictLabel
 app.config.globalProperties.selectDictLabels = selectDictLabels
+app.config.globalProperties.$moment = moment
 
 // 全局组件挂载
 app.component('DictTag', DictTag)

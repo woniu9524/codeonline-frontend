@@ -27,25 +27,26 @@ export function updateK8sConfigure(labId,data) {
 }
 
 //创建k8s部署
-export function addK8sDeployment(labId) {
+export function addK8sDeployment(labId,userId) {
   return request({
-    url: '/cloud/k8s/deployments/'+labId,
+    url: '/cloud/k8s/deployments/'+labId+'/'+userId,
     method: 'post',
   })
 }
 
+
 // 启动k8s环境
-export function startK8sEnvironment(labId) {
+export function startK8sEnvironment(labId,userId) {
   return request({
-    url: '/cloud/k8s/labStart/'+labId,
+    url: '/cloud/k8s/labStart/'+labId+'/'+userId,
     method: 'get',
   })
 }
 
 // 学生删除实验
-export function deleteLabByStudent(labId) {
+export function deleteLabByStudent(labId,userId) {
   return request({
-    url: '/cloud/k8s/labDelete/'+labId,
+    url: '/cloud/k8s/labDelete/'+labId+'/'+userId,
     method: 'delete',
   })
 }

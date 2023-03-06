@@ -59,6 +59,10 @@ import {ElNotification} from "element-plus";
 
 // 读取路由参数
 const labId  = useRoute().query.labId
+let userId = useRoute().query.userId
+if (userId === undefined) {
+  userId = -1
+}
 
 const drawer = ref(false)
 
@@ -70,7 +74,7 @@ selectExperimentByExperimentId(labId).then(response => {
 
 // 开启容器
 const startContainer = () => {
-  addK8sDeployment(labId).then(response => {
+  addK8sDeployment(labId,userId).then(response => {
     ElNotification({
       message: response.msg,
       type: 'success',
@@ -81,7 +85,7 @@ const startContainer = () => {
 // 启动实验
 const frameUrl = ref('')
 const startLab= () => {
-  startK8sEnvironment(labId).then(response => {
+  startK8sEnvironment(labId,userId).then(response => {
     let res=response.data[0]
     console.log(res)
     frameUrl.value = res.url
@@ -98,7 +102,7 @@ const startLab= () => {
 
 // 结束实验
 const endLab = () => {
-  deleteLabByStudent(labId).then(response => {
+  deleteLabByStudent(labId,userId).then(response => {
     ElNotification({
       message: response.msg,
       type: 'success',

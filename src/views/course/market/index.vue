@@ -1,4 +1,5 @@
 <template>
+<div>
   <el-container>
     <el-header style="margin-top: 30px">
       <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
@@ -63,7 +64,7 @@
     </el-main>
   </el-container>
 
-<!-- 上传镜像抽屉 -->
+  <!-- 上传镜像抽屉 -->
   <el-drawer v-model="showUploadImage" direction="rtl">
     <template #header>
       <span>上传镜像</span>
@@ -71,6 +72,7 @@
     <DockerImageUpload></DockerImageUpload>
   </el-drawer>
 
+</div>
 </template>
 
 <script>

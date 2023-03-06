@@ -7,3 +7,11 @@ export function selectExperimentByExperimentId(experimentId) {
         method: 'get',
     })
 }
+
+/* 查询所有学生实验完成信息 */
+export function selectAllStudentExperimentInfo(labId) {
+    return request({
+        url: '/function/courses/experiments/students/'+labId,
+        method: 'get',
+    })
+}
