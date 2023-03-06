@@ -18,7 +18,7 @@
     </el-card>
   </div>
   <div>
-    <iframe class="lab-frame" />
+    <iframe class="lab-frame"/>
   </div>
 <!--  实验信息的抽屉 -->
   <el-drawer
