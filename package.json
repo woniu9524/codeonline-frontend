@@ -15,9 +15,12 @@
     "url": "https://gitee.com/y_project/RuoYi-Cloud.git"
   },
   "dependencies": {
+    "@codemirror/lang-javascript": "^6.1.4",
+    "@codemirror/theme-one-dark": "^6.1.1",
     "@element-plus/icons-vue": "2.0.10",
     "@vueuse/core": "9.5.0",
     "axios": "0.27.2",
+    "codemirror": "^6.0.1",
     "echarts": "5.4.0",
     "element-plus": "2.2.27",
     "file-saver": "2.0.5",
@@ -28,6 +31,7 @@
     "nprogress": "0.2.0",
     "pinia": "2.0.22",
     "vue": "3.2.45",
+    "vue-codemirror": "^6.1.1",
     "vue-cropper": "1.0.3",
     "vue-router": "4.1.4"
   },
