@@ -2,8 +2,7 @@
   <div>
     <el-container>
       <el-header>
-        <el-card class="box-card">
-          <el-row :gutter="20">
+          <el-row :gutter="20" style="margin-top: 10px">
             <el-col :span="18">
               <el-input
                   v-model="comment"
@@ -20,7 +19,6 @@
               <el-button type="primary" @click="submit">提交</el-button>
             </el-col>
           </el-row>
-        </el-card>
       </el-header>
 
       <el-container>
