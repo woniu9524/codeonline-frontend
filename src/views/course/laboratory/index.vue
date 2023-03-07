@@ -111,12 +111,6 @@ const endLab = () => {
 }
 </script>
 
-<!--<script>-->
-<!--export default {-->
-<!--  name: 'LaboratoryUse',-->
-<!--}-->
-<!--</script>-->
-
 <style scoped>
 
 .lab-frame {

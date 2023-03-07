@@ -60,12 +60,12 @@ export const constantRoutes = [
   {
     path: '',
     component: Layout,
-    redirect: '/index',
+    redirect: '/home',
     children: [
       {
-        path: '/index',
+        path: '/home',
         component: () => import('@/views/index'),
-        name: 'Index',
+        name: 'Home',
         meta: { title: '首页', icon: 'dashboard', affix: true }
       }
     ]
@@ -123,6 +123,20 @@ export const constantRoutes = [
         component: () => import('@/views/course/laboratory/manageLab/index.vue'),
         name: 'LaboratoryManage',
         meta: { title: '实验管理', icon: 'client' }
+      }
+    ]
+  },
+  {
+    path: '/course',
+    component: Layout,
+    hidden: true,
+    redirect: 'noredirect',
+    children: [
+      {
+        path: 'laboratory/manage/detail',
+        component: () => import('@/views/course/laboratory/manageLab/studentLabDetail/index.vue'),
+        name: 'StudentLabDetail',
+        meta: { title: '学生实验管理', icon: 'client' }
       }
     ]
   },
