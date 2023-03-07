@@ -58,7 +58,7 @@
       </el-row>
       <el-row :gutter="20" v-if="imageInfos.length%4!==0">
         <el-col :span="6" v-for="o in imageInfos.length%4" :key="o">
-          <image-card :image-info="imageInfos[imageInfos.length-4+o>=0?imageInfos.length-4+o:o-1]"></image-card>
+          <image-card :image-info="imageInfos[imageInfos.length-4>=0?imageInfos.length-4+o:o-1]"></image-card>
         </el-col>
       </el-row>
     </el-main>
