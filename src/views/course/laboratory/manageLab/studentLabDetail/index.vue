@@ -16,7 +16,7 @@
               />
             </el-col>
             <el-col :span="3">
-              <el-button type="primary" @click="submit">提交</el-button>
+              <el-button type="primary" @click="submitScore">提交</el-button>
             </el-col>
           </el-row>
       </el-header>
@@ -53,6 +53,9 @@ import {javascript} from '@codemirror/lang-javascript'
 import {oneDark} from '@codemirror/theme-one-dark'
 import {useRoute} from "vue-router";
 import {listFileTree,readFileContent} from "@/api/cloud/nfs.js";
+import {selectStudentExperimentInfo,submitStudentExperimentInfo} from "@/api/course/lab.js";
+import {ElMessage} from "element-plus";
+
 interface Tree {
   label: string
   children?: Tree[]
@@ -100,22 +103,29 @@ export default {
       label: 'label',
     }
 
+    // 评价
+    const comment = ref('')
+    const score = ref('')
+    const submitScore = () => {
+      submitStudentExperimentInfo(labId,userId,parseInt(score.value),comment.value).then(res=>{
+        ElMessage.success('提交成功')
+      })
+    }
+
 
     onMounted(() => {
       listFileTree(labId,userId).then(res=>{
         treeData.value=res.data
       })
 
+      selectStudentExperimentInfo(labId,userId).then(res=>{
+        comment.value=res.data.comment
+        score.value=res.data.score
+      })
+
     })
 
 
-    // 评价
-    const comment = ref('')
-    const score = ref('')
-    const submit = () => {
-      console.log(comment.value)
-      console.log(score.value)
-    }
 
     return {
       code,
@@ -127,6 +137,7 @@ export default {
       defaultProps,
       comment,
       score,
+      submitScore
     }
   }
 }

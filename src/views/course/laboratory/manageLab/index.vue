@@ -9,7 +9,8 @@
       <el-table-column prop="createTime" label="创建时间" width="180"/>
       <el-table-column prop="destroyTime" label="销毁时间" width="180"/>
       <el-table-column prop="labTime" label="实验时长" width="120"/>
-      <el-table-column prop="labStatus" label="实验状态" width="120"/>
+      <el-table-column prop="labStatus" label="实验状态" width="80"/>
+      <el-table-column prop="score" label="成绩" width="80"/>
       <el-table-column fixed="right" label="操作" width="120">
         <template #default="scope">
           <el-button

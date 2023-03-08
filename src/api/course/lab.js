@@ -15,3 +15,23 @@ export function selectAllStudentExperimentInfo(labId) {
         method: 'get',
     })
 }
+
+/* 查询单个学生单个实验成绩 */
+export function selectStudentExperimentInfo(experimentId,studentId) {
+    return request({
+        url: '/function/courses/experiments/students/scores/'+experimentId+'/'+studentId,
+        method: 'get',
+    })
+}
+
+/* 提交单个学生成绩 */
+export function submitStudentExperimentInfo(experimentId,studentId,score,comment) {
+    return request({
+        url: '/function/courses/experiments/students/scores/'+experimentId+'/'+studentId,
+        method: 'post',
+        data: {
+            score: score,
+            comment: comment
+        }
+    })
+}
