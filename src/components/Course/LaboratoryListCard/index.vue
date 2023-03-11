@@ -76,6 +76,7 @@ import {useRouter} from "vue-router";
 import {selectCourseInfo,selectExperimentByCourseId} from "@/api/course/courseManage.js";
 import {selectExperimentByExperimentId} from "@/api/course/lab";
 import {ElNotification} from "element-plus";
+import useCourseStore from "@/store/modules/course";
 export default {
 
   name: "LaboratoryListCard",
@@ -193,12 +194,13 @@ export default {
     // 读取路由参数
     const courseId=useRouter().currentRoute.value.query.courseId
 
-
     const submitForm = () => {
       // 对k8sFrom中的ports和envs排序
       sortForm()
-      if (labTitle==='添加实验'){
+      labForm.value['fileUrl']=useCourseStore().fileUrl;
+      if (labTitle.value==='添加实验'){
         // 提交表单
+        console.log(courseId)
         addExperimentToCourse(courseId,labForm.value).then(res=>{
           let labId=res.data.labId;
           addK8sConfigure(labId,k8sForm.value).then(res=>{

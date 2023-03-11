@@ -72,4 +72,13 @@ export function deleteExperiment(experimentId) {
     })
 }
 
+/* 上传实验文件 */
+export function uploadExperimentFile(param,courseId){
+    return request({
+        url:'/function/courses/manage/experiments/'+courseId+'/files',
+        method: 'post',
+        data:param
+    })
+}
+
 
