@@ -1,14 +1,12 @@
 <template>
   <!-- 课程信息 -->
-<!--  <CourseIntroductionCard :course-info="courseInfo"/>-->
+  <!--  <CourseIntroductionCard :course-info="courseInfo"/>-->
 
   <!-- 卡片列表，每行4个 -->
   <div style="width: 95%">
     <el-row :gutter="20" v-for="o in labListData" :key="o">
-      <el-col :span="6">
-        <el-col :span="6" v-for="obj in o">
-          <lab-info-card :lab-info="obj"></lab-info-card>
-        </el-col>
+      <el-col :span="6" v-for="obj in o">
+        <lab-info-card :lab-info="obj"></lab-info-card>
       </el-col>
     </el-row>
   </div>

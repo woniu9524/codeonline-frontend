@@ -18,9 +18,12 @@
     </el-card>
   </div>
   <div>
-    <iframe class="lab-frame" :src="frameUrl" >
+    <iframe class="lab-frame" :src="frameUrl" v-show="frameShow">
 
     </iframe>
+    <div class="lab-frame" v-show="!frameShow">
+          <div style="background-color: #f8ac59;padding: 10px 10px"><h1 v-html="tips"></h1></div>
+    </div>
   </div>
 <!--  实验信息的抽屉 -->
   <el-drawer
@@ -34,12 +37,12 @@
         <p>实验ID：{{labId}}</p>
       </div>
       <div class="body">
-        <p>开始时间：{{labInfo.labStartTime}}</p>
-        <p>结束时间：{{labInfo.labEndTime}}</p>
-        <p>创建人：{{labInfo.createBy}}</p>
-        <h3>指导文件：<a href="#" style="color: #1c84c6">文件1</a></h3>
+        <p>开始时间：{{labInfo.lab_start_time}}</p>
+        <p>结束时间：{{labInfo.lab_end_time}}</p>
+        <p>创建人：{{labInfo.create_by}}</p>
+        <h3>指导文件：<a href="{{labInfo.file_url}}" style="color: #1c84c6">{{labInfo.file_name}}</a></h3>
         <h3>实验介绍：</h3>
-        <p>{{labInfo.labContent}}</p>
+        <p>{{labInfo.lab_content}}</p>
       </div>
       <el-divider></el-divider>
       <div v-show="frameUrl.value!==''">
@@ -65,6 +68,7 @@ if (userId === undefined) {
 }
 
 const drawer = ref(false)
+const frameShow = ref(false)
 
 // 读取实验信息
 const labInfo = ref({})
@@ -82,6 +86,7 @@ const startContainer = () => {
   })
 }
 
+const tips = ref('实验步骤：启动环境->开始实验->结束实验')
 // 启动实验
 const frameUrl = ref('')
 const startLab= () => {
@@ -93,6 +98,12 @@ const startLab= () => {
     let service=res.service
     let nodePort=res.nodePort
     let port=res.port
+    if (service==='vscode'){
+      frameShow.value=true
+    }else {
+      frameShow.value=false
+      tips.value='请在浏览器中打开：'+`<a href="${res.url}" target="_blank" style="color: #1c84c6">${res.url}</a>`
+    }
     ElNotification({
       message: response.msg,
       type: 'success',
@@ -117,6 +128,9 @@ const endLab = () => {
   width: 100%;
   height: calc(100vh - 148px);
   background-color: #1ab394;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .lab-drawer {
