@@ -29,7 +29,6 @@
   <el-drawer
       v-model="drawer"
       direction="rtl"
-      :title="labInfo.labName"
       class="lab-drawer"
   >
     <div class="card">

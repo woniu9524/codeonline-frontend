@@ -63,12 +63,12 @@
         <h4>添加课程</h4>
       </template>
       <template #default>
-
+        <el-input v-model="courseId" placeholder="输入课程编号" />
       </template>
       <template #footer>
         <div style="flex: auto">
           <el-button @click="drawerOpen=false">取消</el-button>
-          <el-button type="primary" @click="submitCourse">确定</el-button>
+          <el-button type="primary" @click="submitCourse()">确定</el-button>
         </div>
       </template>
     </el-drawer>
@@ -80,7 +80,7 @@
 import {ref, reactive, onMounted} from "vue";
 import {addCourse, deleteCourse, selectCourseListByTeacherId, updateCourse} from "@/api/course/course";
 import {useRouter} from 'vue-router'
-import {getCurriculumList} from "@/api/personal/curriculum";
+import {getCurriculumList,addCurriculum} from "@/api/personal/curriculum";
 
 const drawerOpen = ref(false);// 抽屉是否打开
 const courseForm = reactive({
@@ -91,6 +91,7 @@ const courseForm = reactive({
   courseWeek: "",
   introduction: "",
 });
+const courseId = ref("");
 const rules = reactive({
   courseName: [
     {required: true, message: "请输入课程名称", trigger: "blur"},
@@ -131,7 +132,12 @@ const goCourse = (row) => {
 
 /* 添加或者修改课程 */
 const submitCourse = () => {
-
+    addCurriculum(courseId.value).then(response => {
+      drawerOpen.value = false;
+      selectCourseListByTeacherId().then(response => {
+        courseList.value = response.data;
+      });
+    });
 };
 
 const handleDelete = (row) => {
